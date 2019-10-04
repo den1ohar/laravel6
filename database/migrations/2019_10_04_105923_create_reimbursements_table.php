@@ -15,6 +15,10 @@ class CreateReimbursementsTable extends Migration
     {
         Schema::create('reimbursements', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('expense_id');
+            $table->date('date');
+            $table->unsignedBigInteger('amount');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
