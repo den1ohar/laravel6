@@ -42,4 +42,9 @@ class Expense extends Model
     {
         return $this->belongsTo(Type::class);
     }
+
+    public function reimbursement()
+    {
+        return $this->belongsTo(Reimbursement::class);
+    }
 }

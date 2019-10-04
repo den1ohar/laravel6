@@ -14,5 +14,6 @@
 Route::get('/', 'ExpenseController@index');
 
 Route::resources([
-    'expenses' => 'ExpenseController'
+    'expenses' => 'ExpenseController',
+    'reimbursements' => 'ReimbursementController',
 ]);

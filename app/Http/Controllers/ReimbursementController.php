@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\{
+    Expense,
+    Reimbursement
+};
+
+use App\Http\Requests\ReimbursementCreateRequest;
 
 class ReimbursementController extends Controller
 {
@@ -13,7 +19,9 @@ class ReimbursementController extends Controller
      */
     public function index()
     {
-        //
+        $reimbursements = Reimbursement::orderBy('date', 'DESC')->get();
+
+        return view('reimbursements.index', compact('reimbursements'));
     }
 
     /**
@@ -23,24 +31,30 @@ class ReimbursementController extends Controller
      */
     public function create()
     {
-        //
+        $expenses = Expense::orderBy('date', 'DESC')->get();
+
+        return view('reimbursements.create', compact('expenses'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ReimbursementCreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReimbursementCreateRequest $request)
     {
-        //
+        $data = $request->all();
+
+        Reimbursement::create($data);
+
+        return redirect()->route('reimbursements.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -51,7 +65,7 @@ class ReimbursementController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -62,8 +76,8 @@ class ReimbursementController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -74,7 +88,7 @@ class ReimbursementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
