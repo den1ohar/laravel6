@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Expense;
-use Illuminate\Http\Request;
+use App\{
+    Category,
+    Company,
+    Employee,
+    Expense,
+    Project,
+    Type
+};
+use App\Http\Requests\ExpenseCreateRequest;
+use League\Flysystem\Exception;
 
 class ExpenseController extends Controller
 {
@@ -14,7 +22,8 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        $expenses = Expense::orderBy('date', 'DESC')->get();
+        return view('expenses.index', compact('expenses'));
     }
 
     /**
@@ -24,24 +33,34 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::orderBy('category_name')->get();
+        $companies = Company::orderBy('company_name')->get();
+        $employees = Employee::orderBy('first_name')->get();
+        $projects = Project::orderBy('project_name')->get();
+        $types = Type::orderBy('type_name')->get();
+
+        return view('expenses.create', compact('categories', 'companies', 'employees', 'projects', 'types'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ExpenseCreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ExpenseCreateRequest $request)
     {
-        //
+        $data = $request->all();
+
+        Expense::create($data);
+
+        return redirect()->route('expenses.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Expense  $expense
+     * @param  \App\Expense $expense
      * @return \Illuminate\Http\Response
      */
     public function show(Expense $expense)
@@ -52,7 +71,7 @@ class ExpenseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Expense  $expense
+     * @param  \App\Expense $expense
      * @return \Illuminate\Http\Response
      */
     public function edit(Expense $expense)
@@ -63,8 +82,8 @@ class ExpenseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Expense  $expense
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Expense $expense
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Expense $expense)
@@ -75,7 +94,7 @@ class ExpenseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Expense  $expense
+     * @param  \App\Expense $expense
      * @return \Illuminate\Http\Response
      */
     public function destroy(Expense $expense)
