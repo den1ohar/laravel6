@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Company extends Model
 {
     protected $fillable = [
-        'project_name'
+        'company_name'
     ];
 }

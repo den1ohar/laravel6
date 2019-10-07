@@ -17,3 +17,7 @@ Route::resources([
     'expenses' => 'ExpenseController',
     'reimbursements' => 'ReimbursementController',
 ]);
+
+Route::post('/expenses/checked', 'ExpenseController@checked');
+
+Route::get('/receipts/{receipt}', 'ReceiptController@show')->name('receipts.show');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +17,11 @@ class Expense extends Model
         'employee_id',
         'note'
     ];
+
+    public function receipts()
+    {
+        return $this->hasMany(Receipt::class);
+    }
 
     public function category()
     {

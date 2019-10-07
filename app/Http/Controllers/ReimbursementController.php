@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\{
-    Expense,
-    Reimbursement
-};
-
+use App\Models\Expense;
+use App\Models\Reimbursement;
+use App\Models\Receipt;
 use App\Http\Requests\ReimbursementCreateRequest;
 
 class ReimbursementController extends Controller
@@ -44,9 +42,20 @@ class ReimbursementController extends Controller
      */
     public function store(ReimbursementCreateRequest $request)
     {
-        $data = $request->all();
+        $reimbursement = Reimbursement::create($request->all());
 
-        Reimbursement::create($data);
+        if ($request->receipt && $reimbursement) {
+            foreach ($request->receipt as $key => $receipt) {
+                $path = $receipt->store('public/reimbursement');
+                $filename = $receipt->getClientOriginalName();
+
+                $receipt = new Receipt();
+                $receipt->reimbursement_id = $reimbursement->id;
+                $receipt->path = $path;
+                $receipt->original_name = $filename;
+                $receipt->save();
+            }
+        }
 
         return redirect()->route('reimbursements.index');
     }
@@ -68,9 +77,11 @@ class ReimbursementController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Reimbursement $reimbursement)
     {
-        //
+        $expenses = Expense::orderBy('date', 'DESC')->get();
+
+        return view('expenses.create', compact('expenses', 'reimbursement'));
     }
 
     /**

@@ -16,6 +16,7 @@
                 <th>Date</th>
                 <th>Amount</th>
                 <th>Comment</th>
+                <th>Receipts</th>
             </tr>
             </thead>
             <tbody>
@@ -26,6 +27,11 @@
                     <th>{{ $reimbursement->date }}</th>
                     <th>{{ $reimbursement->amount }}</th>
                     <th>{{ $reimbursement->comment }}</th>
+                    <th>
+                        @foreach ($reimbursement->receipts as $receipt)
+                            <a href="{{ route('receipts.show', $receipt->id) }}" target="_blank">Receipt #{{ $receipt->id }}</a>
+                        @endforeach
+                    </th>
                 </tr>
             @endforeach
             </tbody>

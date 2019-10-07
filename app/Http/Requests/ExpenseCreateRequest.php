@@ -32,7 +32,8 @@ class ExpenseCreateRequest extends FormRequest
             "company_id" => "required|exists:companies,id",
             "project_id" => "nullable|exists:projects,id",
             "employee_id" => "nullable|exists:employees,id",
-            "note" => "nullable|string|max:250"
+            "note" => "nullable|string|max:250",
+            "receipt" => "nullable",
         ];
     }
 }

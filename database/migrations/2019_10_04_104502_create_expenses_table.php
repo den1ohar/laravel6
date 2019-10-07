@@ -24,6 +24,7 @@ class CreateExpensesTable extends Migration
             $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->string('note')->nullable();
+            $table->boolean('checked')->default(0);
             $table->timestamps();
         });
     }

@@ -27,7 +27,8 @@ class ReimbursementCreateRequest extends FormRequest
             "date" => "required|date",
             "expense_id" => "required|exists:expenses,id",
             "amount" => "required|numeric",
-            "comment" => "nullable|string|max:3000"
+            "comment" => "nullable|string|max:3000",
+            "receipt" => "nullable",
         ];
     }
 }
